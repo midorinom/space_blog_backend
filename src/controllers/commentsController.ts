@@ -32,6 +32,42 @@ const createComment = async (req: Request, res: Response) => {
   }
 };
 
+const getTopCommenters = async (req: Request, res: Response) => {
+  try {
+    const topCommenters = await Comments.aggregate([
+      {
+        $group: {
+          _id: "$username",
+          totalComments: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { totalComments: -1 },
+      },
+      {
+        $limit: 3,
+      },
+      {
+        $project: {
+          _id: 0,
+          username: "$_id",
+          totalComments: 1,
+        },
+      },
+    ]);
+
+    res.json({
+      topCommenters: topCommenters,
+    });
+  } catch (err) {
+    console.log("GET /api/comments/get-top", err);
+    res.status(400).json({
+      status: "error",
+      message: "an error has occurred when getting top commenters per day.",
+    });
+  }
+};
+
 const getAverageCommentsPerDay = async (req: Request, res: Response) => {
   try {
     const averageComments = await Comments.aggregate([
@@ -67,28 +103,9 @@ const getAverageCommentsPerDay = async (req: Request, res: Response) => {
   }
 };
 
-const topCommenters = async (req: Request, res: Response) => {
-  await Comments.aggregate([
-    {
-      $group: {
-        _id: "$username",
-        count: { $sum: 1 },
-      },
-    },
-    {
-      $sort: { count: -1 },
-    },
-    {
-      $limit: 3,
-    },
-    {
-      $project: {
-        _id: 0,
-        username: "$_id",
-        count: 1,
-      },
-    },
-  ]);
+export {
+  getCommentsById,
+  createComment,
+  getTopCommenters,
+  getAverageCommentsPerDay,
 };
-
-export { getCommentsById, createComment, getAverageCommentsPerDay };

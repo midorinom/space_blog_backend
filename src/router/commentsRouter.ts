@@ -1,10 +1,14 @@
 import express from "express";
-import { getComments } from "../controllers/commentsController";
+import {
+  getCommentsById,
+  createComment,
+} from "../controllers/commentsController";
 
 const router = express.Router();
 
 // Endpoints
-router.post("/get", getComments);
+router.post("/get-by-id", getCommentsById);
+router.put("/create", createComment);
 
 // Export
 export { router };

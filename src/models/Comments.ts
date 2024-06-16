@@ -4,7 +4,10 @@ import mongoose from "mongoose";
 // Schema
 const CommentsSchema = new mongoose.Schema(
   {
-    x: Number,
+    article_id: Number,
+    username: String,
+    comment: String,
+    date: String,
   },
   { collection: "comments" }
 );

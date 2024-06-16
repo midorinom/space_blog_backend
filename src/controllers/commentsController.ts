@@ -3,10 +3,10 @@ import { Comments } from "../models/Comments";
 
 const getCommentsById = async (req: Request, res: Response) => {
   try {
-    const profileData = await Comments.find({
+    const comments = await Comments.find({
       article_id: req.body.article_id,
-    });
-    res.json(profileData);
+    }).select("_id -__v");
+    res.json(comments);
   } catch (err) {
     console.log("POST /api/comments/get-by-id", err);
     res.status(400).json({

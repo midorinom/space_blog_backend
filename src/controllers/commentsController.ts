@@ -36,6 +36,11 @@ const getTopCommenters = async (req: Request, res: Response) => {
   try {
     const topCommenters = await Comments.aggregate([
       {
+        $project: {
+          username: { $toLower: "$username" },
+        },
+      },
+      {
         $group: {
           _id: "$username",
           totalComments: { $sum: 1 },

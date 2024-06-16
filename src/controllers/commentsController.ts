@@ -56,7 +56,7 @@ const getAverageCommentsPerDay = async (req: Request, res: Response) => {
     ]);
 
     res.json({
-      averageComments: averageComments,
+      averageCommentsPerDay: averageComments[0].averageCommentsPerDay,
     });
   } catch (err) {
     console.log("GET /api/comments/get-average", err);
@@ -65,6 +65,30 @@ const getAverageCommentsPerDay = async (req: Request, res: Response) => {
       message: "an error has occurred when getting average comments per day.",
     });
   }
+};
+
+const topCommenters = async (req: Request, res: Response) => {
+  await Comments.aggregate([
+    {
+      $group: {
+        _id: "$username",
+        count: { $sum: 1 },
+      },
+    },
+    {
+      $sort: { count: -1 },
+    },
+    {
+      $limit: 3,
+    },
+    {
+      $project: {
+        _id: 0,
+        username: "$_id",
+        count: 1,
+      },
+    },
+  ]);
 };
 
 export { getCommentsById, createComment, getAverageCommentsPerDay };

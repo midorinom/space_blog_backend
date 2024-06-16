@@ -5,7 +5,7 @@ const getCommentsById = async (req: Request, res: Response) => {
   try {
     const comments = await Comments.find({
       article_id: req.body.article_id,
-    }).select("_id -__v");
+    }).select("-_id -__v");
     res.json(comments);
   } catch (err) {
     console.log("POST /api/comments/get-by-id", err);

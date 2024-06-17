@@ -4,7 +4,7 @@
 - Create a new Cluster (if this is your first time logging in, you will be prompted to do so). Name it anything you want.
 - You will be prompted to create a new user for your cluster. Create the user and take note of the password for this user.
 - You will be prompted to connect to the cluster and to choose a connection method. Choose "Drivers".
-- Select "Mongoose" as the driver, then copy down the connection string. In the connection string, replace <password> with the password that you used for the user that you created previously. Remove the angle brackets.
+- Select "Mongoose" as the driver, then copy down the connection string. In the connection string, replace "<password>" with the password that you used for the user that you created previously. Remove the angle brackets.
 
 ### Clone
 - Clone the repository into a directory
